@@ -1,15 +1,12 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink, Navigate, Outlet } from 'react-router-dom'
 import { UseStateContext } from '../contexts/ContextProvider'
+import axiosClient from '../axios'
+import Toast from './Toast'
 
-// const user = {
-//     name: 'Tom Cook',
-//     email: 'tom@example.com',
-//     imageUrl:
-//         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-// }
+
 
 const navigation = [
     { name: 'Dashboard', to: '/' },
@@ -22,16 +19,31 @@ function classNames(...classes) {
 
 const DefaultLayout = () => {
 
-    const { currentUser, userToken } = UseStateContext();
+    const { currentUser, userToken, setCurrentUser, setTokenToLocalStorage } = UseStateContext();
 
-    if(!userToken) {
+    if (!userToken) {
         return <Navigate to='login' />
     }
 
     const logout = (e) => {
         e.preventDefault();
-        console.log('Logged out');
-    }
+
+        // eslint-disable-next-line no-unused-vars
+        axiosClient.post('/logout').then((res) => {
+            setCurrentUser({});
+            setTokenToLocalStorage(null);
+        });
+    };
+
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => () => {
+        axiosClient.get('/me')
+            .then(({ data }) => {
+                setCurrentUser(data)
+            })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
 
     return (
@@ -76,7 +88,7 @@ const DefaultLayout = () => {
                                                 <div>
                                                     <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                                         <span className="sr-only">Open user menu</span>
-                                                        <span className='text-white px-2'>{currentUser.name}</span>
+                                                        <span className='text-white px-2'>{currentUser && currentUser.name}</span>
                                                         <UserIcon className='w-8 h-8 bg-black/25 p-2 rounded-full text-white' />
                                                     </Menu.Button>
                                                 </div>
@@ -141,10 +153,10 @@ const DefaultLayout = () => {
                                         </div>
                                         <div className="ml-3">
                                             <div className="text-base font-medium leading-none text-white">
-                                                {currentUser.name}
+                                                {currentUser && currentUser.name}
                                             </div>
                                             <div className="text-sm font-medium leading-none text-gray-400">
-                                                {currentUser.email}
+                                                {currentUser && currentUser.email}
                                             </div>
                                         </div>
                                     </div>
@@ -165,6 +177,8 @@ const DefaultLayout = () => {
                 </Disclosure>
 
                 <Outlet />
+
+                <Toast />
 
             </div >
         </>

@@ -22,7 +22,7 @@ const SurveysListItem = ({ survey, onDelete }) => {
                 className="flex justify-between items-center mt-3"
                 style={{ position: 'absolute', bottom: '15px', width: 'calc(100% - 3rem)' }}
             >
-                <Button to={`surveys/${survey.id}`}>
+                <Button to={`/surveys/${survey.id}`}>
                     <PencilIcon className="w-5 h-5 mr-2" />
                     Edit
                 </Button>
@@ -31,13 +31,13 @@ const SurveysListItem = ({ survey, onDelete }) => {
                     className="flex items-center justify-between"
                     style={{ width: "70px" }}
                 >
-                    <Button href={`/view/survey/${survey.slug}`} circle link>
+                    <Button href={`/survey/public/${survey.slug}`} circle link>
                         <ArrowTopRightOnSquareIcon className="w-5 h-5" />
                     </Button>
 
                     {
                         survey.id && (
-                            <Button onDelete={onDelete} circle link color="red">
+                            <Button onDelete={() => onDelete(survey.id)} circle link color="red">
                                 <TrashIcon className="w-5 h-5" />
                             </Button>
                         )

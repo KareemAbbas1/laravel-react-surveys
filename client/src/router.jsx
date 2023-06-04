@@ -6,11 +6,12 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Surveys from "./pages/Surveys";
 import SurveyPage from "./pages/SurveyPage";
+import SurveyPublicPage from "./pages/SurveyPublicPage";
 
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: "/",
         element: <DefaultLayout />,
         children: [
             {
@@ -18,16 +19,20 @@ const router = createBrowserRouter([
                 element: <Navigate to="/" />
             },
             {
-                path: '/',
-                element: <Dashboard />
+                path: "/",
+                element: <Dashboard />,
             },
             {
-                path: '/surveys',
-                element: <Surveys />
+                path: "/surveys",
+                element: <Surveys />,
             },
             {
-                path: '/surveys/create',
-                element: <SurveyPage />
+                path: "/surveys/create",
+                element: <SurveyPage />,
+            },
+            {
+                path: "/surveys/:id",
+                element: <SurveyPage />,
             },
         ]
     },
@@ -44,6 +49,10 @@ const router = createBrowserRouter([
                 element: <Signup />
             },
         ]
+    },
+    {
+        path: 'survey/public/:slug',
+        element: <SurveyPublicPage />,
     }
 ]);
 
