@@ -57,8 +57,8 @@ const DefaultLayout = () => {
                                     <div className="flex items-center">
                                         <div className="flex-shrink-0">
                                             <img
-                                                className="h-8 w-8"
-                                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                                                className="h-8 w-8 rounded-full"
+                                                src="https://images-platform.99static.com//XcssfvWR2gfPPXTHR9eL3mDSwvs=/0x0:2000x2000/fit-in/500x500/99designs-contests-attachments/113/113069/attachment_113069299"
                                                 alt="Your Company"
                                             />
                                         </div>
